@@ -7,12 +7,23 @@ let aux, aux1 = 0;
 //função de inserção de valores ou operadores
 function inserir(num){
                 var numero = document.getElementById('resultado').innerHTML;
+                console.log(numero);
+
+                for (var i = 0; i < numero.length; i++) {
+                  console.log(numero[i]);
+                  if (num === '+' || num === '-' || num === '*' || num === '/') {
+                    if (numero[i] === '+' || numero[i] === '-' || numero[i] === '*' || numero[i] === '/') {
+                      return;
+                    }
+                  }
+                }
+
                 document.getElementById('resultado').innerHTML = numero + num;
 
+                //console.log(num);
+                //console.log(numero);
 
 }
-
- //tratar erros e pontos;
 
 //função que apaga toda o calculo
 function apagar(){
@@ -46,6 +57,7 @@ function colocarArray(str) {
            //adiciona os operadores dentro da arrayOp e filtro para apagar as posições vazias
            arrayOp = str.split(/[(0-9)|(.)]/);
            arrayOp = arrayOp.filter(item => item != '');
+
            //adiciona apenas os numeros dentro da arrayNum
            arrayNum = str.split(/[^(0-9)|.]/);
            for (var i = 0; i < arrayNum.length || arrayOp.lenght; i++) {
