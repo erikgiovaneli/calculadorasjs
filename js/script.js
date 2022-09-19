@@ -4,7 +4,7 @@ let arrayCalc = [];
 let arrayAux = [];
 let aux, aux1 = 0;
 
-var opPonto = ['+','-','*','/','.'];
+var opPonto = ['+','-','*','/'];
 var oper = ["+", "-", "*", "/"];
 
 //função de inserção de valores ou operadores
@@ -16,18 +16,14 @@ function inserir(num){
                   return;
                 }
 
-                //Não deixar operador após um ponto
-                if (oper.indexOf(num) >= 0 && numero.substr(-1,1) == '.') {
-                  return;
-                }
-
                 //Não deixar dois operadores seguidos e trocar o operador se quiser
                 if (oper.indexOf(num) >= 0 && oper.indexOf(numero.substr(-1,1)) >= 0) {
                   var aux3 = numero.substr(-1,1);
                   if (aux3 == num) {
                     return;
                   }
-                  numero = numero.charAt(numero.lenght-1);
+                  numero = numero.substr(0,numero.length-1);
+                  console.log(numero);
                 }
 
                 //Erros com pontos
@@ -36,12 +32,9 @@ function inserir(num){
                   if (numero.substr(-1, 1) == num) {
                     return;
                   }
-                  //Não deixar um ponto após operador
-                  if (oper.indexOf(numero.substr(-1,1)) >=0) {
-                    return;
-                  }
                   //Não deixar mais de um ponto
-                  for (var i = numero.charAt(numero.lenght); i >= 0; i--) {
+                  for (var i = numero.length; i >= 0; i--) {
+                    console.log(numero[i]);
                     if (oper.indexOf(numero[i]) >= 0) {
                       break;
                     }
