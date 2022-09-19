@@ -4,25 +4,56 @@ let arrayCalc = [];
 let arrayAux = [];
 let aux, aux1 = 0;
 
+var opPonto = ['+','-','*','/','.'];
+var oper = ["+", "-", "*", "/"];
+
 //função de inserção de valores ou operadores
 function inserir(num){
                 var numero = document.getElementById('resultado').innerHTML;
                 console.log(numero);
 
-                for (var i = 0; i < numero.length; i++) {
-                  console.log(numero[i]);
-                  if (num === '+' || num === '-' || num === '*' || num === '/') {
-                    if (numero[i] === '+' || numero[i] === '-' || numero[i] === '*' || numero[i] === '/') {
+                //Não entrar com operador ou ponto na equação
+                if (opPonto.indexOf(num)>=0 && numero == '') {
+                  return;
+                }
+
+                //Não deixar operador após um ponto
+                if (oper.indexOf(num) >= 0 && numero.substr(-1,1) == '.') {
+                  return;
+                }
+
+                //Não deixar dois operadores seguidos e trocar o operador se quiser
+                if (oper.indexOf(num) >= 0 && oper.indexOf(numero.substr(-1,1)) >= 0) {
+                  var aux3 = numero.substr(-1,1);
+                  if (aux3 == num) {
+                    return;
+                  }
+                  numero = numero.charAt(numero.lenght-1);
+                }
+
+                //Erros com pontos
+                if (num == '.') {
+                  //Dois pontos seguidos
+                  if (numero.substr(-1, 1) == num) {
+                    return;
+                  }
+                  //Não deixar um ponto após operador
+                  if (oper.indexOf(numero.substr(-1,1)) >=0) {
+                    return;
+                  }
+                  //Não deixar mais de um ponto
+                  for (var i = numero.charAt(numero.lenght); i >= 0; i--) {
+                    if (numero[i] == ".") {
                       return;
+                    }
+                    if (oper.indexOf(numero[i]) >= 0) {
+                      console.log(numero[i]);
+                      break;
                     }
                   }
                 }
 
                 document.getElementById('resultado').innerHTML = numero + num;
-
-                //console.log(num);
-                //console.log(numero);
-
 }
 
 //função que apaga toda o calculo
@@ -42,18 +73,6 @@ function voltar(){
 
 //função para colocar a equação dentro de arrays para utilizar no metodo calculo
 function colocarArray(str) {
-          //Tratamento de pontos no começo e meio da equação
-          for (var i = 0; i < str.length; i++) {
-            if (str[i] === '.' && str[i-1] !== '0123456789' ) {
-              document.getElementById('resultado').innerHTML = "";
-              return;
-            } else if (str[i] === '0123456789' && str[i+1] === '.'){
-                if (str[i+2] === '.') {
-                document.getElementById('resultado').innerHTML = "";
-                return;
-                }
-            }
-           }
            //adiciona os operadores dentro da arrayOp e filtro para apagar as posições vazias
            arrayOp = str.split(/[(0-9)|(.)]/);
            arrayOp = arrayOp.filter(item => item != '');
@@ -67,34 +86,10 @@ function colocarArray(str) {
                arrayCalc.push(parseFloat(arrayNum[i]));
                arrayCalc.push(arrayOp[i]);
            }
-
-           //Verificação se começa ou termina a equação com operador
-           var ult = arrayCalc.at(-1);
-           if (ult === '*' || ult === '/' || ult === '-' || ult === '+') {
-            arrayCalc = [];
-            document.getElementById('resultado').innerHTML = "";
-            return;
-          } else if (arrayCalc[0] === '+-*/') {
-            arrayCalc = [];
-            document.getElementById('resultado').innerHTML = "";
-            return;
-          }
-
            arrayCalc = arrayCalc.filter(item => item != undefined);
 }
 
 function calcularTudo() {
-            //Tratamento de um ou mais operadores
-            for (var i = 0; i < arrayOp.length; i++) {
-              if (arrayOp[i] === '+' || arrayOp[i] === '-' || arrayOp[i] === '/' || arrayOp[i] === '*') {
-                //console.log(arrayOp);
-              } else {
-                arrayCalc= [];
-                document.getElementById('resultado').innerHTML = "";
-              }
-            }
-
-
             //Realizar os calculos
             if (arrayNum.length >= 2 || arrayNum.length <= 4) {
                   //Prioridade para multiplicação e divisão
@@ -134,8 +129,8 @@ function calcular(){
            colocarArray(resultado);
            calcularTudo();
 
-           /*com eval (se utilizar, comente a função calcularTudo e colocarArray)
-           if(resultado)
+           //com eval (se utilizar, comente a função calcularTudo e colocarArray)
+         /*if(resultado)
            {
                document.getElementById('resultado').innerHTML = eval(resultado);
            }
