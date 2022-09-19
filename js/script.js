@@ -34,7 +34,6 @@ function inserir(num){
                   }
                   //Não deixar mais de um ponto
                   for (var i = numero.length; i >= 0; i--) {
-                    console.log(numero[i]);
                     if (oper.indexOf(numero[i]) >= 0) {
                       break;
                     }
