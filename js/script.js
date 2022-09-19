@@ -10,7 +10,6 @@ var oper = ["+", "-", "*", "/"];
 //função de inserção de valores ou operadores
 function inserir(num){
                 var numero = document.getElementById('resultado').innerHTML;
-                console.log(numero);
 
                 //Não entrar com operador ou ponto na equação
                 if (opPonto.indexOf(num)>=0 && numero == '') {
@@ -43,12 +42,11 @@ function inserir(num){
                   }
                   //Não deixar mais de um ponto
                   for (var i = numero.charAt(numero.lenght); i >= 0; i--) {
+                    if (oper.indexOf(numero[i]) >= 0) {
+                      break;
+                    }
                     if (numero[i] == ".") {
                       return;
-                    }
-                    if (oper.indexOf(numero[i]) >= 0) {
-                      console.log(numero[i]);
-                      break;
                     }
                   }
                 }
